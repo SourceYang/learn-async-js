@@ -1,1 +1,6 @@
 Explain the code execution based on the order of the messages logged in src/quiz/promise-2darray.txt.
+
+
+When example usage is executed, first call to "sum2DArray" with "array2D" as argument: "Sum called ..." is logged immediately, and "returning from sum" is logged next. The console.log statement for "sumPromise1" then logs the pending promose object to the console. This promise is pending completion of the "setTimeout" callback.
+Second call to "sum2DArray" with "array2D" (string) as argument: "Sum called" is logged first, then "rejecting" is logged, "returning from sum" is logged next, and console.log statement for "sumPromise2" is logged last.
+After "sum2DArray" have completed, it finds the callback from the first "setTimeout" and executes it.
