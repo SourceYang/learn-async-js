@@ -28,8 +28,10 @@ const array2D = [
     [7, 8, 9]
 ];
 
-const sumPromise1 = sum2DArray(array2D);
-console.log(sumPromise1);
+sum2DArray(array2D)
+    .then(sum => console.log(`Sum: ${sum}`)) // Handle resolved promise
+    .catch(error => console.error(`Error: ${error}`)); // Handle rejected promise
 
-const sumPromise2 = sum2DArray('array2D');
-console.log(sumPromise2);
+sum2DArray('array2D')
+    .then(sum => console.log(`Sum: ${sum}`))
+    .catch(error => console.error(`Error: ${error}`));
