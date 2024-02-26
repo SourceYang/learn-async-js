@@ -14,7 +14,6 @@ const incidents = [
         place: "Stonehaven",
         direction: "north",
         description: "Broken-down T on north and park station."
-
     },
     {
         id: "MABOS002",
@@ -24,9 +23,8 @@ const incidents = [
         place: "Stonehaven",
         direction: "north",
         description: "Car in West Village broken down."
-
     }
-]
+];
 
 const server = http.createServer((req, res) => {
     // Parse the request URL to extract parameters
@@ -36,16 +34,25 @@ const server = http.createServer((req, res) => {
     // Check if the request is for the specified endpoint
     if (pathname.startsWith('/incidents/')) {
         // Extract parameters from the URL
-        const [, , road, location, direction, id] = pathname.split('/');
-
-        // Check if all parameters are provided
-        if (road && location && direction && id) {
-            // Send response with the extracted parameters
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(incidents.filter((incident) => {
-                return incident.id === `MABOS00${id}`
-            })));
+        const pathSegments = pathname.split('/');
+        
+        // Check if the required number of segments is provided
+        if (pathSegments.length < 6) {
+            // Not enough parameters were provided
+            res.writeHead(400, { 'Content-Type': 'text/plain' });
+            res.end('Bad request: Missing required URL segments');
+            return;
         }
+
+        const [, , road, location, direction, id] = pathSegments;
+
+        // Further validation can be added here if needed
+
+        // Send response with the extracted parameters
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(incidents.filter((incident) => {
+            return incident.id === `MABOS00${id}`
+        })));
     } else {
         // If the request is for an unsupported endpoint, send a not found response
         res.writeHead(404, { 'Content-Type': 'text/plain' });
@@ -55,4 +62,4 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
-})
+});
